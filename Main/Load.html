@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JerniaUI - Loader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .code-box {
+            background-color: #1e1e1e;
+            color: #00ff90;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            text-align: left;
+            width: 500px;
+            max-width: 90%;
+            position: relative;
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 6px 10px;
+            font-size: 12px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+
+        .nav-button {
+            position: fixed;
+            bottom: 20px;
+            padding: 12px 20px;
+            font-size: 14px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
+
+        .back {
+            left: 20px;
+        }
+
+        .forward {
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Load the UI</h1>
+
+        <div class="code-box">
+            <button class="copy-button" onclick="copyCode()">Copy</button>
+            <code id="luaCode">
+local Jernia = loadstring(game:HttpGet('https://jerniaui.github.io/source.lua'))()
+            </code>
+        </div>
+    </div>
+
+    <a href="javascript:history.back()" class="nav-button back">← Back</a>
+    <a href="javascript:history.forward()" class="nav-button forward">Forward →</a>
+
+    <script>
+        function copyCode() {
+            const code = document.getElementById("luaCode").innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                alert("Code copied!");
+            });
+        }
+    </script>
+
+</body>
+</html>
