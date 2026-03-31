@@ -3,7 +3,7 @@ JERNIA UI
 BY BROTHAISHACKIER
 ]]--
 
-local settings = {
+local JerniaSettings = {
 	Name = "Jernia Example Window",
 	Icon = 0,
 	LoadingTitle = "Jernia User Interface",
@@ -37,7 +37,7 @@ local JerniaLibrary = {
 	}
 }
 function JerniaLibrary:CreateWindow(Settings)
-	local color = self.Theme[settings.Theme] or self.Theme["Defualt"]
+	local Theme = self.Theme[Settings.Theme] or self.Theme[JerniaSettings.Theme]
 	print("sucess")
 end
 return JerniaLibrary
