@@ -460,11 +460,6 @@ function JerniaLibrary:CreateWindow(Settings)
 	UIshow.Position = UDim2.new(0.5, 0, 0, 0)
 	UIshow.AnchorPoint = Vector2.new(0.5, 0)
 
-
-	if platform ~=  "Desktop" then
-		UIshow.Visible = true
-	end
-
 	local UI = Instance.new("Frame")
 	UI.AnchorPoint = Vector2.new(0.5, 0.5)
 	UI.ClipsDescendants = false
