@@ -14,7 +14,7 @@ local JerniaSettings = {
 	Icon = 0,
 	LoadingTitle = "Jernia User Interface",
 	ShowText = "Jernia",
-	Theme = "Defualt",
+	Theme = "Default",
 
 	ToggleUIKeybind = "K",
 
@@ -40,7 +40,7 @@ local JerniaSettings = {
 local JerniaLibrary = {
 	Flags = {},
 	Themes = {
-		Defualt = {
+		Default = {
 			Background = Color3.fromRGB(30, 30, 30),
 			Stroke = Color3.fromRGB(60, 60, 60),
 			TStroke = Color3.fromRGB(90, 90, 90),
@@ -53,7 +53,7 @@ local JerniaLibrary = {
 	}
 }
 
-local sTheme = JerniaLibrary.Themes.Defualt
+local sTheme = JerniaLibrary.Themes.Default
 
 function JerniaLibrary:CreateWindow(Settings)
 	assert(type(Settings) == "table", "CreateWindow Error")
