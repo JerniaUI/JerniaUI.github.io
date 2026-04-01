@@ -668,7 +668,7 @@ function JerniaLibrary:CreateWindow(Settings)
 		tab.ZIndex = 49
 		tab.Name = Settings.Title
 		local UICorner = Instance.new("UICorner", tab)
-		UICorner.CornerRadius = UDim.new(1, 0)
+		UICorner.CornerRadius = UDim.new(0.3, 0)
 		local icon = Instance.new("ImageLabel", tab)
 		local title = Instance.new("TextLabel", tab)
 		if Settings.Icon == 0 then
@@ -711,6 +711,8 @@ function JerniaLibrary:CreateWindow(Settings)
 		Scroll.ZIndex = 40
 		Scroll.BackgroundTransparency = 1
 		UICorner.CornerRadius = UDim.new(0.05, 0)
+		local UICorner = Instance.new("UICorner", icon)
+		UICorner.CornerRadius = UDim.new(0.3, 0)
 		if firsttab == false then
 			title.TextColor3 = sTheme.TextI
 			if numico == false then
