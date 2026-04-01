@@ -33,7 +33,7 @@ local JerniaSettings = {
 		Subtitle = "Jernia Key System",
 		Note = "No method of obtaining the key is provided",
 		GrabKeyFromSite = false,
-		Key = {""}
+		Key = {"Hello", "World"}
 	}
 }
 
