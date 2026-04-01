@@ -142,7 +142,8 @@ local JerniaLibrary = {
 			Subtext = Color3.fromRGB(150, 150, 150),
 			PlaceholderText = Color3.fromRGB(170, 170, 170),
 			Textboxbg = Color3.fromRGB(45, 45, 45),
-			Accent = Color3.fromRGB(0, 170, 255),
+			Accent = Color3.fromRGB(45, 45, 45),
+			vAccent = Color3.fromRGB(0, 170, 255),
 			Error = Color3.fromRGB(255, 80, 80),
 			TabSel = Color3.fromRGB(0, 170, 255),
 			TabUns = Color3.fromRGB(60, 60, 60),
@@ -342,7 +343,7 @@ function JerniaLibrary:CreateWindow(Settings)
 		button.Size = UDim2.new(0.5, 0 , 0.159, 0)
 		button.Text = "Submit"
 		button.TextScaled = true
-		button.BackgroundColor3 = sTheme.Accent
+		button.BackgroundColor3 = sTheme.vAccent
 		button.TextColor3 = Color3.fromRGB(255,255,255)
 		button.Font = sTheme.font.bold
 		button.Parent = keygui
@@ -514,7 +515,7 @@ function JerniaLibrary:CreateWindow(Settings)
 	UIStroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
 	local UICorner = Instance.new("UICorner", UI)
 	UICorner.CornerRadius = UDim.new(0.05, 0)
-	local stasdad = 1
+	local stasdad = 0
 	local Frame = Instance.new("Frame", UI)
 	Frame.Size = UDim2.new(1, 0, 0.075, 0)
 	Frame.Position = UDim2.new(0, 0, 0.05, 0)
@@ -574,7 +575,7 @@ function JerniaLibrary:CreateWindow(Settings)
 
 	local tabs = Instance.new("ScrollingFrame", UI)
 	tabs.Size = UDim2.new(1, 0, 0.1, 0)
-	tabs.Position = UDim2.new(0, 0, 0.1, 0)
+	tabs.Position = UDim2.new(0, 0, 0.125, 0)
 	tabs.CanvasSize = UDim2.new(1, 0, 0, 0)
 	tabs.BackgroundTransparency = 1
 	tabs.ZIndex = 48
@@ -584,8 +585,8 @@ function JerniaLibrary:CreateWindow(Settings)
 	local UIListLayout = Instance.new("UIListLayout", tabs)
 	UIListLayout.FillDirection = Enum.FillDirection.Horizontal
 	local scrolls = Instance.new("Frame", UI)
-	scrolls.Size = UDim2.new(1, 0, 0.8, 0)
-	scrolls.Position = UDim2.new(0, 0, 0.2, 0)
+	scrolls.Size = UDim2.new(1, 0, 0.8-0.025, 0)
+	scrolls.Position = UDim2.new(0, 0, 0.225, 0)
 	scrolls.BackgroundTransparency = 1
 	scrolls.ZIndex = 49
 	scrolls.ClipsDescendants = true
@@ -784,7 +785,9 @@ function JerniaLibrary:CreateWindow(Settings)
 			button.BackgroundColor3 = sTheme.Accent
 			button.Font = sTheme.font.bold
 			button.TextScaled = true
-			button.TextColor3 = sTheme.TextI
+			button.TextColor3 = sTheme.Text
+			local UICorner = Instance.new("UICorner", button)
+			UICorner.CornerRadius = UDim.new(0.3, 0)
 
 			button.Activated:Connect(function()
 				local Success, Response = pcall(Settings.Callback)
