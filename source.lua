@@ -250,3 +250,4 @@ function JerniaLibrary:CreateWindow(Settings)
 
 	return Window
 end
+return JerniaLibrary
