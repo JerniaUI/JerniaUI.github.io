@@ -91,32 +91,32 @@
         <div class="code-box">
             <button class="copy-button" onclick="copyCode()">Copy</button>
             <pre><code id="luaCode">local Window = Jernia:CreateWindow({
-    Name = "Jernia Example Window",
-    Icon = 0,
-    LoadingTitle = "Jernia User Interface",
-    ShowText = "Jernia", -- for mobile users to show the UI after clicking the close button
-    Theme = "Defualt",
+	Name = "Jernia Example Window",
+	Icon = 0,
+	LoadingTitle = "Jernia User Interface",
+	ShowText = "Jernia", -- for mobile users to show the UI after clicking the close button
+	Theme = "Default",
 
-    ToggleUIKeybind = "K", -- The keybind to toggle the UI (use string)
+	ToggleUIKeybind = "K", -- The keybind to toggle the UI (use string)
 
-    DisableJerniaPrompts = false,
-    DisableBuildWarnings = false, -- Prevents Jernia from showing warnings about the build used
+	DisableJerniaPrompts = false,
+	DisableBuildWarnings = false, -- Prevents Jernia from showing warnings about the build used
 
-    ConfigurationSaving = {
-        Enabled = false,
-        FolderName = nil, -- Create a custom folder for your hub/game
-        FileName = "Big Hub" --please change this to prevent overlapping
-    },
+	ConfigurationSaving = {
+		Enabled = false,
+		FolderName = nil, -- Create a custom folder for your hub/game
+		FileName = "Big Hub" --please change this to prevent overlaping
+	},
 
-    KeySystem = false, -- Enables the keysystem for jernia
-    KeySettings = {
-        Title = "Jernia",
-        Subtitle = "Jernia Key System",
-        Note = "No method of obtaining the key is provided",
-        GrabKeyFromSite = false,
-        Key = {""}
-    }
-})</code></pre>
+	KeySystem = true, --Enables the keysystem for jernia (stops all scripts from Jernia:Createwindow() until key is passed)
+	KeySettings = {
+		Title = "Jernia",
+		Subtitle = "Jernia Key System",
+		Note = "No method of obtaining the key is provided", -- use this to tell the user how to obtain the key
+		GrabKeyFromSite = false, -- if enabled set the key to a table with a raw url with the key example Key = {"https://pastebin.com/raw/iamanexamplenotused/"}
+		Key = {"Hello", "World"} -- list of keys that can be used
+	}
+}))</code></pre>
         </div>
     </div>
 
