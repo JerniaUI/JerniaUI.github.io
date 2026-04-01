@@ -1,5 +1,6 @@
 --Services
 local CoreGui = game:GetService("CoreGui")
+local TextChatService = game:GetService("TextChatService")
 local isStudio = game:GetService("RunService"):IsStudio() or false
 if isStudio then
 	CoreGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
@@ -613,7 +614,7 @@ function JerniaLibrary:CreateWindow(Settings)
 	UIshow.Activated:Connect(Ushow)
 	close.Activated:Connect(Ushow)
 	UserInputService.InputBegan:Connect(function(input)
-		if input.KeyCode == sToggleUIKeybind then
+		if input.KeyCode == sToggleUIKeybind and not TextChatService:FindFirstChild("ChatInputBarConfiguration").IsFocused then
 			Ushow()
 		end
 		if platform ~=  "Desktop" then
