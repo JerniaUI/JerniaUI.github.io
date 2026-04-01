@@ -30,7 +30,6 @@ local JerniaSettings = {
 	KeySystem = false,
 	KeySettings = {
 		Title = "Jernia",
-		Subtitle = "Jernia Key System",
 		Note = "No method of obtaining the key is provided",
 		GrabKeyFromSite = false,
 		Key = {"Hello", "World"}
@@ -110,7 +109,6 @@ function JerniaLibrary:CreateWindow(Settings)
 		assert(type(Settings.KeySettings) == "table", "KeySettings Error")
 		if Settings.ConfigurationSaving.Enabled then
 			assert(type(Settings.KeySettings.Title) == "string", "KeySettings.Title Error")
-			assert(type(Settings.KeySettings.Subtitle) == "string", "KeySettings.Subtitle Error")
 			assert(type(Settings.KeySettings.Note) == "string", "KeySettings.Note Error")
 			if Settings.KeySettings.GrabKeyFromSite then
 				assert(type(Settings.KeySettings.GrabKeyFromSite) == "boolean", "KeySettings.GrabKeyFromSite Error")
@@ -176,7 +174,7 @@ function JerniaLibrary:CreateWindow(Settings)
 		local subtitle = Instance.new("TextLabel")
 		subtitle.Size = UDim2.new(1, -20, 0, 25)
 		subtitle.BackgroundTransparency = 1
-		subtitle.Text = Settings.KeySettings.Subtitle
+		subtitle.Text = Settings.KeySettings.Note
 		subtitle.TextScaled = true
 		subtitle.TextColor3 = sTheme.PlaceholderText
 		subtitle.Font = Enum.Font.Gotham
