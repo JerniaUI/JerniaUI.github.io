@@ -138,11 +138,14 @@ local JerniaLibrary = {
 			Stroke = Color3.fromRGB(60, 60, 60),
 			TStroke = Color3.fromRGB(90, 90, 90),
 			Text = Color3.fromRGB(255, 255, 255),
+			TextI = Color3.new(0,0,0),
 			Subtext = Color3.fromRGB(150, 150, 150),
 			PlaceholderText = Color3.fromRGB(170, 170, 170),
 			Textboxbg = Color3.fromRGB(45, 45, 45),
 			Accent = Color3.fromRGB(0, 170, 255),
 			Error = Color3.fromRGB(255, 80, 80),
+			TabSel = Color3.fromRGB(0, 170, 255),
+			TabUns = Color3.fromRGB(60, 60, 60),
 			font = {
 				default = Enum.Font.Gotham,
 				bold = Enum.Font.GothamBold
@@ -577,12 +580,24 @@ function JerniaLibrary:CreateWindow(Settings)
 	local tabs = Instance.new("ScrollingFrame", UI)
 	tabs.Size = UDim2.new(1, 0, 0.1, 0)
 	tabs.Position = UDim2.new(0, 0, 0.1, 0)
-	tabs.CanvasSize = UDim2.new(0, 0, 0, 0)
+	tabs.CanvasSize = UDim2.new(1, 0, 0, 0)
 	tabs.BackgroundTransparency = 1
 	tabs.ZIndex = 48
 	tabs.ScrollBarThickness = 0
 	local UICorner = Instance.new("UICorner", tabs)
 	UICorner.CornerRadius = UDim.new(0.5, 0)
+	local UIListLayout = Instance.new("UIListLayout", tabs)
+	UIListLayout.FillDirection = Enum.FillDirection.Horizontal
+	local scrolls = Instance.new("Frame", UI)
+	scrolls.Size = UDim2.new(1, 0, 0.8, 0)
+	scrolls.Position = UDim2.new(0, 0, 0.2, 0)
+	scrolls.BackgroundTransparency = 1
+	scrolls.ZIndex = 49
+	scrolls.ClipsDescendants = true
+	local UIListLayout = Instance.new("UIListLayout", scrolls)
+
+	local UICorner = Instance.new("UICorner", scrolls)
+	UICorner.CornerRadius = UDim.new(0.05, 0)
 
 	--Loading end
 	task.spawn(function()
@@ -626,15 +641,125 @@ function JerniaLibrary:CreateWindow(Settings)
 
 	local Window = {
 		tabs = tabs,
-		scrolls = ""
+		scrolls = scrolls
 	}
-
+	local firsttab = false
 	function Window:CreateTab(Settings)
+		--Tab Button
+		local numico = false
 		assert(type(Settings) == "table", "CreateTab Error")
-		assert(type(Settings.Name) == "string", "Name Error")
+		assert(type(Settings.Title) == "string", "Name Error")
 		if Settings.Icon then 
-			assert(type(Settings.Icon) == "number", "Icon Error")
+			assert(type(Settings.Icon) == "number" or type(Settings.Icon) == "string", "Icon Error")
 		end
+		local tab = Instance.new("Frame", self.tabs)
+		self.tabs.CanvasSize = UDim2.new(#self.tabs:GetChildren()*(1/3), 0, 0, 0)
+		tab.Size = UDim2.new((1/3)/self.tabs.CanvasSize.X.Scale, 0, 1, 0)
+		self.tabs:GetPropertyChangedSignal("CanvasSize"):Connect(function()
+			tab.Size = UDim2.new((1/3)/self.tabs.CanvasSize.X.Scale, 0, 1, 0)
+		end)
+		if firsttab == false then
+			tab.BackgroundColor3 = sTheme.TabSel
+		else
+			tab.BackgroundColor3 = sTheme.TabUns
+		end
+		tab.ClipsDescendants = true
+		tab.BackgroundTransparency = 0.5
+		tab.ZIndex = 49
+		tab.Name = Settings.Title
+		local UICorner = Instance.new("UICorner", tab)
+		UICorner.CornerRadius = UDim.new(1, 0)
+		local icon = Instance.new("ImageLabel", tab)
+		local title = Instance.new("TextLabel", tab)
+		if Settings.Icon == 0 then
+			icon.Visible = false
+			title.Position = UDim2.new(0, 0, 0, 0)
+			title.Size = UDim2.new(1, 0, 1, 0)
+		else
+			if type(Settings.Icon) == "string" then
+				local image = getIcon(Settings.Icon or "bell")
+				icon.Image = "rbxassetid://" .. image.id
+				icon.ImageRectSize = image.imageRectSize
+				icon.ImageRectOffset = image.imageRectOffset
+			else
+				numico = true
+				icon.Image = "rbxassetid://" .. Settings.Icon
+			end
+			icon.Size = UDim2.new(0.3, 0, 1, 0)
+			local uia = Instance.new("UIAspectRatioConstraint", icon)
+			uia.AspectRatio = 1
+			icon.BackgroundTransparency = 1
+			title.Position = UDim2.new(0.25, 0, 0, 0)
+			title.Size = UDim2.new(0.75, 0, 1, 0)
+		end
+		title.BackgroundTransparency = 1
+		title.Text = Settings.Title
+		title.TextScaled = true
+		title.Font = sTheme.font.bold
+		title.ZIndex = 50
+		icon.ZIndex = 50
+		local button = Instance.new("TextButton", tab)
+		button.Size = UDim2.new(1, 0, 1, 0)
+		button.BackgroundTransparency = 1
+		button.ZIndex = 51
+		button.Text = ""
+
+		local Scroll = Instance.new("ScrollingFrame", self.scrolls)
+		Scroll.Size = UDim2.new(1, 0, 1, 0)
+		Scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+		local UICorner = Instance.new("UICorner", Scroll)
+		Scroll.ZIndex = 40
+		Scroll.BackgroundTransparency = 1
+		UICorner.CornerRadius = UDim.new(0.05, 0)
+		if firsttab == false then
+			title.TextColor3 = sTheme.TextI
+			if numico == false then
+				icon.ImageColor3 = sTheme.TextI
+			end
+			Scroll.Visible = true
+			firsttab = true
+			tab.BackgroundColor3 = sTheme.TabSel
+
+		else
+			title.TextColor3 = sTheme.Text
+			if numico == false then
+				icon.ImageColor3 = sTheme.Text
+			end
+			Scroll.Visible = false
+			tab.BackgroundColor3 = sTheme.TabUns
+		end
+		Scroll:GetPropertyChangedSignal("Visible"):Connect(function()
+			if Scroll.Visible then
+				tab.BackgroundColor3 = sTheme.TabSel
+				title.TextColor3 = sTheme.TextI
+				if numico == false then
+					icon.ImageColor3 = sTheme.TextI
+				end
+			else
+				tab.BackgroundColor3 = sTheme.TabUns
+				title.TextColor3 = sTheme.Text
+				if numico == false then
+					icon.ImageColor3 = sTheme.Text
+				end
+			end
+		end)
+
+		button.Activated:Connect(function()
+			for _, o in ipairs(self.scrolls:GetChildren()) do
+				if o:IsA("ScrollingFrame") then
+					o.Visible = false
+				end
+			end
+			Scroll.Visible = true
+		end)
+
+		--functions
+
+
+		local Tab = {
+			Scroll = Scroll
+		}
+		return Tab
 	end
 
 	return Window
