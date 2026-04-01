@@ -1,8 +1,3 @@
---[[
-JERNIA UI
-BY BROTHAISHACKIER
-]]--
-
 local CoreGui = game:GetService("CoreGui")
 local isStudio = game:GetService("RunService"):IsStudio()
 if isStudio then
@@ -107,7 +102,7 @@ function JerniaLibrary:CreateWindow(Settings)
 	end
 	if Settings.KeySettings then
 		assert(type(Settings.KeySettings) == "table", "KeySettings Error")
-		if Settings.ConfigurationSaving.Enabled then
+		if Settings.KeySystem then
 			assert(type(Settings.KeySettings.Title) == "string", "KeySettings.Title Error")
 			assert(type(Settings.KeySettings.Note) == "string", "KeySettings.Note Error")
 			if Settings.KeySettings.GrabKeyFromSite then
