@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>JerniaUI - Creating a window</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .code-box {
+            background-color: #1e1e1e;
+            color: #00ff90;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: monospace;
+            text-align: left;
+            width: 600px;
+            max-width: 90%;
+            position: relative;
+            overflow: auto;
+        }
+
+        .code-box pre {
+            margin: 0;
+            white-space: pre-wrap; /* keeps formatting + wraps long lines */
+        }
+
+        .copy-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 6px 10px;
+            font-size: 12px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .copy-button:hover {
+            background-color: #0056b3;
+        }
+
+        .nav-button {
+            position: fixed;
+            bottom: 20px;
+            padding: 12px 20px;
+            font-size: 14px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .nav-button:hover {
+            background-color: #0056b3;
+        }
+
+        .back {
+            left: 20px;
+        }
+
+        .forward {
+            right: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Load the UI</h1>
+
+        <div class="code-box">
+            <button class="copy-button" onclick="copyCode()">Copy</button>
+            <pre><code id="luaCode">local Window = Jernia:CreateWindow({
+	Name = "Jernia Example Window",
+	Icon = 0,
+	LoadingTitle = "Jernia User Interface",
+	ShowText = "Jernia", -- for mobile users to show the UI after clicking the close button
+	Theme = "Default",
+
+	ToggleUIKeybind = "K", -- The keybind to toggle the UI (use string)
+
+	DisableJerniaPrompts = false,
+	DisableBuildWarnings = false, -- Prevents Jernia from showing warnings about the build used
+
+	ConfigurationSaving = {
+		Enabled = false,
+		FolderName = nil, -- Create a custom folder for your hub/game
+		FileName = "Big Hub" --please change this to prevent overlaping
+	},
+
+	KeySystem = true, --Enables the keysystem for jernia (stops all scripts from Jernia:Createwindow() until key is passed)
+	KeySettings = {
+		Title = "Jernia",
+		Note = "No method of obtaining the key is provided", -- use this to tell the user how to obtain the key
+		GrabKeyFromSite = false, -- if enabled set the key to a table with a raw url with the key example Key = {"https://pastebin.com/raw/iamanexamplenotused/"}
+		Key = {"Hello", "World"} -- list of keys that can be used
+	}
+})</code></pre>
+        </div>
+    </div>
+
+    <!-- Navigation buttons -->
+    <a href="https://jerniaui.github.io/Main/Windows" class="nav-button back">← Back</a>
+    <a href="https://jerniaui.github.io/Main/idk" class="nav-button forward">Forward →</a>
+
+    <script>
+        function copyCode() {
+            const code = document.getElementById("luaCode").innerText;
+            navigator.clipboard.writeText(code).then(() => {
+                alert("Code copied!");
+            });
+        }
+    </script>
+
+</body>
+</html>
