@@ -648,7 +648,12 @@ function JerniaLibrary:CreateWindow(Settings)
 			assert(type(Settings.Icon) == "number" or type(Settings.Icon) == "string", "Icon Error")
 		end
 		local tab = Instance.new("Frame", self.tabs)
-		self.tabs.CanvasSize = UDim2.new(#self.tabs:GetChildren()*(1/3), 0, 0, 0)
+		local hello = #self.tabs:GetChildren()- 2
+		if hello >= 3 then
+			self.tabs.CanvasSize = UDim2.new(hello*(1/3), 0, 0, 0)
+		else
+			self.tabs.CanvasSize = UDim2.new(3*(1/3), 0, 0, 0)
+		end
 		tab.Size = UDim2.new((1/3)/self.tabs.CanvasSize.X.Scale, 0, 1, 0)
 		self.tabs:GetPropertyChangedSignal("CanvasSize"):Connect(function()
 			tab.Size = UDim2.new((1/3)/self.tabs.CanvasSize.X.Scale, 0, 1, 0)
@@ -701,7 +706,11 @@ function JerniaLibrary:CreateWindow(Settings)
 
 		local Scroll = Instance.new("ScrollingFrame", self.scrolls)
 		Scroll.Size = UDim2.new(1, 0, 1, 0)
-		Scroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+		Scroll.CanvasSize = UDim2.new(1, 0, 1, 0)
+		local list = Instance.new("UIListLayout", Scroll)
+		list.Padding = UDim.new(0, 0.01)
+		list.FillDirection = Enum.FillDirection.Vertical
+		list.SortOrder = Enum.SortOrder.LayoutOrder
 		local UICorner = Instance.new("UICorner", Scroll)
 		Scroll.ZIndex = 40
 		Scroll.BackgroundTransparency = 1
@@ -751,11 +760,47 @@ function JerniaLibrary:CreateWindow(Settings)
 		end)
 
 		--functions
-
-
 		local Tab = {
-			Scroll = Scroll
+			Scroll = Scroll,
+			lay = 1
 		}
+
+		function Tab:CreateButton(Settings)
+			local hello = #self.Scroll:GetChildren() -1
+			if hello >= 3 then
+				self.Scroll.CanvasSize = UDim2.new(0, 0, (hello)*(0.301), 0)
+			else
+				self.Scroll.CanvasSize = UDim2.new(0, 0, (3)*(0.301), 0)
+			end
+			local button = Instance.new("TextButton", self.Scroll)
+			button.LayoutOrder = self.lay
+			self.lay += 1
+			button.Position = UDim2.new(0, 0, 0, 0)
+			button.Size = UDim2.new(1, 0, 0.3/self.Scroll.CanvasSize.Y.Scale, 0)
+			self.Scroll:GetPropertyChangedSignal("CanvasSize"):Connect(function()
+				button.Size = UDim2.new(1, 0, 0.3/self.Scroll.CanvasSize.Y.Scale, 0)
+			end)
+			button.Text = Settings.Title
+			button.BackgroundColor3 = sTheme.Accent
+			button.Font = sTheme.font.bold
+			button.TextScaled = true
+			button.TextColor3 = sTheme.TextI
+
+			button.Activated:Connect(function()
+				local Success, Response = pcall(Settings.Callback)
+				if not Success then
+					button.Text = "Callback Error"
+					button.BackgroundColor3 = Color3.fromRGB(255, 0, 0)
+					wait(1)
+					button.Text = Settings.Title
+					button.BackgroundColor3 = sTheme.Accent
+				end
+			end)
+			local Button = {button = button}
+
+			return Button
+		end
+
 		return Tab
 	end
 
