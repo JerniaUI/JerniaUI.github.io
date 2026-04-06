@@ -817,6 +817,164 @@ function JerniaLibrary:Destroy()
 	print("Jernia Destroyed")
 end
 
+function JerniaLibrary:Keysys(Settings)
+	assert(type(Settings.Title) == "string", "KeySettings.Title Error")
+	assert(type(Settings.Note) == "string", "KeySettings.Note Error")
+	if Settings.GrabKeyFromSite then
+		assert(type(Settings.GrabKeyFromSite) == "boolean", "KeySettings.GrabKeyFromSite Error")
+	end
+	assert(type(Settings.Key) == "table", "KeySettings.Key Error")
+	local keys = {}
+	if Settings.GrabKeyFromSite and not isStudio then
+		for _, v in pairs(Settings.Key) do
+			local zxcvb, success = pcall(function()
+				return game:GetService("HttpService"):GetAsync(v)
+			end)
+			if success then
+				table.insert(keys, zxcvb)
+			end
+		end
+	else
+		for _, v in pairs(Settings.KeySettings.Key) do
+			table.insert(keys, v)
+		end
+	end
+
+	local keygui = Instance.new("Frame")
+	keygui.Name = "KeyGui"
+	keygui.Size = UDim2.new(0.198, 0, 0.238, 0)
+	keygui.Position = UDim2.new(0.5, 0, 0.5, 0)
+	keygui.AnchorPoint = Vector2.new(0.5, 0.5)
+	keygui.BackgroundColor3 = sTheme.Background
+	keygui.Parent = gui
+
+	local corner = Instance.new("UICorner", keygui)
+	corner.CornerRadius = UDim.new(0.05, 0)
+
+	local stroke = Instance.new("UIStroke", keygui)
+	stroke.Color = sTheme.Stroke
+	stroke.Thickness = 0.005
+	stroke.StrokeSizingMode = Enum.StrokeSizingMode.ScaledSize
+
+	local layout = Instance.new("UIListLayout", keygui)
+	layout.Padding = UDim.new(0.075, 0)
+	layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+	layout.VerticalAlignment = Enum.VerticalAlignment.Top
+	layout.FillDirection = Enum.FillDirection.Vertical
+	layout.SortOrder = Enum.SortOrder.LayoutOrder
+
+	local dragger = Instance.new("UIDragDetector", keygui)
+
+	local padding = Instance.new("UIPadding", keygui)
+	padding.PaddingTop = UDim.new(0.075,0)
+	padding.PaddingBottom = UDim.new(0.075,0)
+
+	local title = Instance.new("TextLabel")
+	title.Size = UDim2.new(0.943, 0,0.182, 0)
+	title.BackgroundTransparency = 1
+	title.Text = Settings.KeySettings.Title
+	title.TextScaled = true
+	title.TextColor3 = sTheme.Text
+	title.Font = sTheme.font.bold
+	title.Parent = keygui
+
+	local subtitle = Instance.new("TextLabel")
+	subtitle.Size = UDim2.new(0.943, 0, 0.114, 0)
+	subtitle.BackgroundTransparency = 1
+	subtitle.Text = Settings.KeySettings.Note
+	subtitle.TextScaled = true
+	subtitle.TextColor3 = sTheme.Subtext
+	subtitle.Font = sTheme.font.default
+	subtitle.Parent = keygui
+
+	local keyBox = Instance.new("TextBox")
+	keyBox.Size = UDim2.new(0.8, 0, 0.159, 0)
+	keyBox.PlaceholderText = "Enter key..."
+	keyBox.Text = ""
+	keyBox.TextScaled = true
+	keyBox.BackgroundColor3 = sTheme.Textboxbg
+	keyBox.TextColor3 = sTheme.Text
+	keyBox.PlaceholderColor3 = sTheme.PlaceholderText
+	keyBox.Font = sTheme.font.default
+	keyBox.Parent = keygui
+
+	local boxCorner = Instance.new("UICorner", keyBox)
+	boxCorner.CornerRadius = UDim.new(0.2, 0)
+
+	local status = Instance.new("TextLabel")
+	status.Size = UDim2.new(0.943, 0, 0.091, 0)
+	status.BackgroundTransparency = 1
+	status.Text = ""
+	status.TextScaled = true
+	status.TextColor3 = Color3.fromRGB(255, 80, 80)
+	status.Font = sTheme.font.default
+	status.Parent = keygui
+
+	local button = Instance.new("TextButton")
+	button.Size = UDim2.new(0.5, 0 , 0.159, 0)
+	button.Text = "Submit"
+	button.TextScaled = true
+	button.BackgroundColor3 = sTheme.vAccent
+	button.TextColor3 = Color3.fromRGB(255,255,255)
+	button.Font = sTheme.font.bold
+	button.Parent = keygui
+
+	local btnCorner = Instance.new("UICorner", button)
+	btnCorner.CornerRadius = UDim.new(0.2, 0)	
+
+	title.LayoutOrder = 0
+	subtitle.LayoutOrder = 1
+	keyBox.LayoutOrder = 2
+	status.LayoutOrder = 3
+	button.LayoutOrder = 4
+
+	local KeyEntered = Instance.new("BindableEvent")
+
+	button.Activated:Connect(function()
+		if table.find(keys, keyBox.Text) then
+			KeyEntered:Fire()
+		else
+			status.Text = "Invalid key"
+		end
+	end)
+
+	KeyEntered.Event:Wait()
+	KeyEntered:Destroy()
+	local swait = 0.5
+	local tween = TweenService:Create(keygui, TweenInfo.new(swait), {BackgroundTransparency = 1})
+	local tween2 = TweenService:Create(keyBox, TweenInfo.new(swait), {BackgroundTransparency = 1})
+	local tween3 = TweenService:Create(status, TweenInfo.new(swait), {TextTransparency = 1})
+	local tween4 = TweenService:Create(button, TweenInfo.new(swait), {TextTransparency = 1})
+	local tween5 = TweenService:Create(keyBox, TweenInfo.new(swait), {TextTransparency = 1})
+	local tween6 = TweenService:Create(button, TweenInfo.new(swait), {BackgroundTransparency = 1})
+	local tween7 = TweenService:Create(title, TweenInfo.new(swait), {TextTransparency = 1})
+	local tween8 = TweenService:Create(subtitle, TweenInfo.new(swait), {TextTransparency = 1})
+	local tween9 = TweenService:Create(stroke, TweenInfo.new(swait), {Transparency = 1})
+
+	tween:Play()
+	tween2:Play()
+	tween3:Play()
+	tween4:Play()
+	tween5:Play()
+	tween6:Play()
+	tween7:Play()
+	tween8:Play()
+	tween9:Play()
+
+	task.wait(swait)
+	swait = nil
+	keygui:Destroy()
+	tween = nil
+	tween2 = nil
+	tween3 = nil
+	tween4 = nil
+	tween5 = nil
+	tween6 = nil
+	tween7 = nil
+	tween8 = nil
+	tween9 = nil
+end
+
 --Notify User
 function JerniaLibrary:Notify(Settings)
 	local gui = CoreGui:FindFirstChild("Jernia")
